@@ -23,16 +23,26 @@ namespace industry_iot_form
             serialPort.DataBits = 8;
             serialPort.StopBits = StopBits.One;
 
+               PLCPort.PortName = "COM3";
+               PLCPort.BaudRate = 9600;
+               PLCPort.Parity = Parity.None;
+               PLCPort.DataBits = 8;
+               PLCPort.StopBits = StopBits.One;
+
+             
+
 
             serialPort.DataReceived += SerialPort_DataReceived;
 
       
 
             serialPort.Open();
+              PLCPort.Open();
           
             if(radioButton2.Checked)
             {
                 serialPort.Close();
+                PLCPort.Close();
          
             }
 
@@ -55,6 +65,10 @@ namespace industry_iot_form
                     listBox1.Items.Add($"[{time}]{data}");
 
                 }));
+               if (PLCPort.IsOpen)
+               {
+                  PLCPort.WriteLine(data + "\r\n");
+               }
 
             }
         }
